@@ -1,4 +1,5 @@
 import streamlit as st
+import requests
 from snowflake.snowpark.functions import col
 
 cnx = st.connection("snowflake")
@@ -19,6 +20,12 @@ ingredients_list = st.multiselect(
     my_dataframe,
     max_selections=5
 )
+
+smoothiefroot_response = requests.get("[https://my.smoothiefroot.com/api/fruit/watermelon](https://my.smoothiefroot.com/api/fruit/watermelon)")  
+st.text(smoothiefroot_response)
+
+sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width = True)
+
 if ingredients_list:
     ingredients_string = ''
     for fruit_chosen in ingredients_list:
